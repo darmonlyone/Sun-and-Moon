@@ -120,3 +120,40 @@ npm run lint
 This project is intended for entertainment and creative self-reflection.
 
 > Just for fun — don’t take quiz outcomes too seriously 💛
+
+## Deploy to GitHub Pages (MoonAndSun)
+
+This project is now configured to auto-deploy with GitHub Actions.
+
+### 1) Push to GitHub
+
+Make sure your repository is on GitHub and your default branch is `main`.
+
+### 2) Enable Pages
+
+In your repo:
+
+- Go to **Settings → Pages**
+- Under **Build and deployment**, choose **Source: GitHub Actions**
+
+### 3) Trigger deployment
+
+Push to `main` (or run **Actions → Deploy Next.js site to GitHub Pages → Run workflow**).
+
+Your site URL will be:
+
+- `https://<your-github-username>.github.io/<repo-name>/`
+
+If your repo name is `MoonAndSun`, it will look like:
+
+- `https://<your-github-username>.github.io/MoonAndSun/`
+
+### 4) Optional custom domain named MoonAndSun
+
+If you own a domain, use something like:
+
+- `moonandsun.com`
+- `www.moonandsun.com`
+- `moonandsun.yourdomain.com`
+
+Then add it in **Settings → Pages → Custom domain** and configure DNS with your domain provider.
