@@ -5,8 +5,6 @@ type ArtTheme = {
   start: string;
   middle: string;
   end: string;
-  accent: string;
-  symbol: string;
 };
 
 const baseDataUri = (svg: string) =>
@@ -19,19 +17,19 @@ export function getCelestialKind(resultKey: ResultKey): CelestialKind {
 }
 
 const artThemes: Record<ResultKey, ArtTheme> = {
-  newMoon: { start: '#0f172a', middle: '#3730a3', end: '#312e81', accent: '#c7d2fe', symbol: 'New' },
-  fullMoon: { start: '#334155', middle: '#6366f1', end: '#8b5cf6', accent: '#e2e8f0', symbol: 'Full' },
-  supermoon: { start: '#4c1d95', middle: '#7c3aed', end: '#2563eb', accent: '#ede9fe', symbol: 'Super' },
-  micromoon: { start: '#374151', middle: '#52525b', end: '#64748b', accent: '#e4e4e7', symbol: 'Micro' },
-  blueMoon: { start: '#0c4a6e', middle: '#2563eb', end: '#06b6d4', accent: '#e0f2fe', symbol: 'Blue' },
-  bloodMoon: { start: '#450a0a', middle: '#be123c', end: '#ea580c', accent: '#ffe4e6', symbol: 'Blood' },
-  harvestMoon: { start: '#78350f', middle: '#d97706', end: '#facc15', accent: '#fef3c7', symbol: 'Harvest' },
-  lunarEclipse: { start: '#1e1b4b', middle: '#4c1d95', end: '#be185d', accent: '#ddd6fe', symbol: 'Eclipse' },
-  sunrise: { start: '#db2777', middle: '#f97316', end: '#facc15', accent: '#ffedd5', symbol: 'Sunrise' },
-  solarNoon: { start: '#ca8a04', middle: '#f59e0b', end: '#fb923c', accent: '#fef9c3', symbol: 'Noon' },
-  sunset: { start: '#be185d', middle: '#8b5cf6', end: '#4338ca', accent: '#fde7f3', symbol: 'Sunset' },
-  sunspot: { start: '#7c2d12', middle: '#d97706', end: '#84cc16', accent: '#fef3c7', symbol: 'Sunspot' },
-  solarEclipse: { start: '#111827', middle: '#92400e', end: '#f59e0b', accent: '#fef3c7', symbol: 'Solar' },
+  newMoon: { start: '#0f172a', middle: '#3730a3', end: '#312e81' },
+  fullMoon: { start: '#334155', middle: '#6366f1', end: '#8b5cf6' },
+  supermoon: { start: '#4c1d95', middle: '#7c3aed', end: '#2563eb' },
+  micromoon: { start: '#374151', middle: '#52525b', end: '#64748b' },
+  blueMoon: { start: '#0c4a6e', middle: '#2563eb', end: '#06b6d4' },
+  bloodMoon: { start: '#450a0a', middle: '#be123c', end: '#ea580c' },
+  harvestMoon: { start: '#78350f', middle: '#d97706', end: '#facc15' },
+  lunarEclipse: { start: '#1e1b4b', middle: '#4c1d95', end: '#be185d' },
+  sunrise: { start: '#db2777', middle: '#f97316', end: '#facc15' },
+  solarNoon: { start: '#ca8a04', middle: '#f59e0b', end: '#fb923c' },
+  sunset: { start: '#be185d', middle: '#8b5cf6', end: '#4338ca' },
+  sunspot: { start: '#7c2d12', middle: '#d97706', end: '#84cc16' },
+  solarEclipse: { start: '#111827', middle: '#92400e', end: '#f59e0b' },
 };
 
 export function getCelestialArtSvg(resultKey: ResultKey) {
@@ -65,7 +63,6 @@ export function getCelestialArtSvg(resultKey: ResultKey) {
       <circle cx="314" cy="332" r="22" fill="#C7D2FE" fill-opacity="0.35"/>
       <circle cx="259" cy="355" r="10" fill="#C7D2FE" fill-opacity="0.45"/>
       <path d="M219 403C252 426 288 437 328 437C365 437 403 426 433 404C399 427 358 440 316 440C279 440 244 429 219 403Z" fill="#E0E7FF" fill-opacity="0.8"/>
-      <text x="320" y="548" text-anchor="middle" fill="${theme.accent}" font-size="46" font-family="Arial, sans-serif" font-weight="700">${theme.symbol}</text>
     </svg>
   `;
   }
@@ -93,7 +90,6 @@ export function getCelestialArtSvg(resultKey: ResultKey) {
         <path d="M558 320L474 292V348L558 320Z" fill="#FFF4BE"/>
       </g>
       <circle cx="320" cy="320" r="154" fill="url(#sun-core)"/>
-      <text x="320" y="548" text-anchor="middle" fill="${theme.accent}" font-size="46" font-family="Arial, sans-serif" font-weight="700">${theme.symbol}</text>
     </svg>
   `;
 }
