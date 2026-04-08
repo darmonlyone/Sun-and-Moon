@@ -1,6 +1,7 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import html2canvas from 'html2canvas';
+import { useMemo, useRef, useState } from 'react';
 import { getCelestialArtDataUri } from './art';
 import { introCopy, Lang, midwayQuote, preResultQuote, questions, resultOrder, results, ResultKey, resultShortDescriptions } from './data/quizData';
 
@@ -170,45 +171,41 @@ function ResultCard({ lang, resultKey, onRestart }: { lang: Lang; resultKey: Res
   const result = results[resultKey];
   const shortDescription = resultShortDescriptions[resultKey];
   const artSrc = getCelestialArtDataUri(resultKey);
+  const exportRef = useRef<HTMLElement>(null);
 
   const handleExport = async () => {
-    const image = new Image();
-    image.src = artSrc;
-
-    try {
-      await image.decode();
-    } catch {
-      try {
-        await new Promise<void>((resolve, reject) => {
-          image.onload = () => resolve();
-          image.onerror = () => reject(new Error('Unable to load artwork for export.'));
-        });
-      } catch {
-        return;
-      }
-    }
-
-    const canvas = document.createElement('canvas');
-    canvas.width = 640;
-    canvas.height = 640;
-
-    const context = canvas.getContext('2d');
-    if (!context) {
+    const exportNode = exportRef.current;
+    if (!exportNode) {
       return;
     }
 
-    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+    try {
+      const canvas = await html2canvas(exportNode, {
+        backgroundColor: null,
+        scale: Math.min(window.devicePixelRatio || 2, 3),
+        useCORS: true,
+        logging: false,
+        windowWidth: exportNode.scrollWidth,
+        windowHeight: exportNode.scrollHeight,
+        ignoreElements: (element) => element.hasAttribute('data-export-hide'),
+      });
 
-    const link = document.createElement('a');
-    link.download = `${result.titleEn.toLowerCase().replace(/\s+/g, '-')}-art.png`;
-    link.href = canvas.toDataURL('image/png');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+      const link = document.createElement('a');
+      link.download = `${result.titleEn.toLowerCase().replace(/\s+/g, '-')}-result.png`;
+      link.href = canvas.toDataURL('image/png');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Failed to export result image:', error);
+    }
   };
 
   return (
-    <section className={`glow-card animate__animated animate__fadeInUp overflow-hidden bg-gradient-to-br p-0 ${result.palette} ${result.pattern}`}>
+    <section
+      ref={exportRef}
+      className={`glow-card animate__animated animate__fadeInUp overflow-hidden bg-gradient-to-br p-0 ${result.palette} ${result.pattern}`}
+    >
       <div className="flex flex-col lg:flex-row lg:items-stretch">
         <div className="order-1 flex items-center justify-center bg-black/20 p-4 sm:p-6 lg:w-[44%]">
           <div className="result-export-shell flex w-full items-center justify-center rounded-[1.75rem] border border-white/20 bg-white/10 p-3 shadow-2xl">
