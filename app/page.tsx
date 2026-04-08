@@ -175,6 +175,23 @@ function ResultCard({ lang, resultKey, onRestart }: { lang: Lang; resultKey: Res
     const image = new Image();
     image.src = artSrc;
 
+    const images = Array.from(card.querySelectorAll('img'));
+    await Promise.all(
+      images.map(async (image) => {
+        if (image.complete) {
+          return;
+        }
+
+        try {
+          await image.decode();
+        } catch {
+          // Export should continue even if an image cannot be decoded.
+        }
+      }),
+    );
+
+    await new Promise((resolve) => requestAnimationFrame(() => resolve(undefined)));
+
     try {
       await image.decode();
     } catch {
