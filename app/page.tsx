@@ -178,17 +178,34 @@ function ResultCard({ lang, resultKey, onRestart }: { lang: Lang; resultKey: Res
       return;
     }
 
-    const hiddenNodes = Array.from(resultCardRef.current.querySelectorAll('[data-export-hide="true"]')) as HTMLElement[];
+    const card = resultCardRef.current;
+    const hiddenNodes = Array.from(card.querySelectorAll('[data-export-hide="true"]')) as HTMLElement[];
+
     hiddenNodes.forEach((node) => {
       node.dataset.originalDisplay = node.style.display;
       node.style.display = 'none';
     });
 
+    const images = Array.from(card.querySelectorAll('img'));
+    await Promise.all(
+      images.map(async (image) => {
+        if (image.complete) {
+          return;
+        }
+
+        try {
+          await image.decode();
+        } catch {
+          // Export should continue even if an image cannot be decoded.
+        }
+      }),
+    );
+
     try {
-      const canvas = await html2canvas(resultCardRef.current, {
+      const canvas = await html2canvas(card, {
         scale: 2,
         useCORS: true,
-        backgroundColor: null,
+        backgroundColor: '#0f1026',
       });
 
       const link = document.createElement('a');
