@@ -496,21 +496,21 @@ const questionBank: Question[] = [
 ];
 
 export const questions: Question[] = [
-  questionBank[4],
-  questionBank[2],
-  questionBank[7],
-  questionBank[1],
   questionBank[0],
-  questionBank[9],
-  questionBank[3],
-  questionBank[10],
-  questionBank[5],
-  questionBank[11],
-  questionBank[8],
-  questionBank[12],
+  questionBank[1],
   questionBank[6],
   questionBank[13],
   questionBank[14],
+  questionBank[7],
+  questionBank[11],
+  questionBank[5],
+  questionBank[8],
+  questionBank[4],
+  questionBank[12],
+  questionBank[2],
+  questionBank[3],
+  questionBank[9],
+  questionBank[10],
 ];
 
 export const introCopy = {

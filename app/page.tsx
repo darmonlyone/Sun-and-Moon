@@ -188,10 +188,10 @@ function ResultCard({ lang, resultKey, onRestart }: { lang: Lang; resultKey: Res
     const bgEnd = celestialKind === 'sun' ? '#f59e0b' : '#8b5cf6';
     const accent = celestialKind === 'sun' ? '#ffe7a4' : '#e0e7ff';
     const exportArt = getCelestialArtDataUri(resultKey);
-    const bodyLines = splitLines(exportBody, 39, 120, 50, 5);
-    const shortLines = splitLines(exportShortDescription, 44, 120, 44, 3);
-    const meaningLines = splitLines(exportMeaning, 38, 152, 40, 2);
-    const loveLines = splitLines(exportLove, 40, 152, 38, 2);
+    const bodyLines = splitLines(exportBody, 41, 128, 40, 5);
+    const shortLines = splitLines(exportShortDescription, 44, 128, 34, 2);
+    const meaningLines = splitLines(exportMeaning, 48, 154, 32, 2);
+    const loveLines = splitLines(exportLove, 48, 154, 30, 2);
 
     const svg = `
       <svg xmlns="http://www.w3.org/2000/svg" width="${EXPORT_WIDTH}" height="${EXPORT_HEIGHT}" viewBox="0 0 ${EXPORT_WIDTH} ${EXPORT_HEIGHT}">
@@ -202,22 +202,22 @@ function ResultCard({ lang, resultKey, onRestart }: { lang: Lang; resultKey: Res
             <stop offset="1" stop-color="${bgEnd}" />
           </linearGradient>
         </defs>
-        <rect width="${EXPORT_WIDTH}" height="${EXPORT_HEIGHT}" rx="80" fill="url(#bg)"/>
+        <rect width="${EXPORT_WIDTH}" height="${EXPORT_HEIGHT}" rx="56" fill="url(#bg)"/>
         <circle cx="180" cy="180" r="110" fill="#ffffff" fill-opacity="0.08"/>
         <circle cx="910" cy="1420" r="170" fill="#ffffff" fill-opacity="0.08"/>
-        <rect x="72" y="72" width="${EXPORT_WIDTH - 144}" height="${EXPORT_HEIGHT - 144}" rx="56" fill="#081122" fill-opacity="0.18" stroke="#FFFFFF" stroke-opacity="0.2"/>
-        <image href="${exportArt}" x="170" y="160" width="740" height="740" preserveAspectRatio="xMidYMid slice" />
-        <text x="120" y="950" fill="${accent}" font-family="Arial, Helvetica, sans-serif" font-size="40" letter-spacing="8">${escapeXml(exportLabel)}</text>
-        <text x="120" y="1035" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="84" font-weight="700">${escapeXml(exportTitle)}</text>
-        <text x="120" y="1135" fill="rgba(255,255,255,0.86)" font-family="Arial, Helvetica, sans-serif" font-size="34">${shortLines}</text>
-        <text x="120" y="1290" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="38">${bodyLines}</text>
-        <rect x="120" y="1530" width="840" height="170" rx="28" fill="rgba(0,0,0,0.22)"/>
-        <text x="152" y="1582" fill="rgba(255,255,255,0.75)" font-family="Arial, Helvetica, sans-serif" font-size="24">${escapeXml(exportMeaningLabel)}</text>
-        <text x="152" y="1630" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="30">${meaningLines}</text>
-        <rect x="120" y="1720" width="840" height="140" rx="28" fill="rgba(255,255,255,0.12)"/>
-        <text x="152" y="1766" fill="rgba(255,255,255,0.78)" font-family="Arial, Helvetica, sans-serif" font-size="24">${escapeXml(exportLoveLabel)}</text>
-        <text x="152" y="1812" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="28">${loveLines}</text>
-        <text x="120" y="1868" fill="rgba(255,255,255,0.72)" font-family="Arial, Helvetica, sans-serif" font-size="28">Sun &amp; Moon Personality Quiz</text>
+        <rect x="52" y="52" width="${EXPORT_WIDTH - 104}" height="${EXPORT_HEIGHT - 104}" rx="44" fill="#081122" fill-opacity="0.18" stroke="#FFFFFF" stroke-opacity="0.2"/>
+        <image href="${exportArt}" x="136" y="144" width="808" height="500" preserveAspectRatio="xMidYMid slice" />
+        <text x="128" y="740" fill="${accent}" font-family="Arial, Helvetica, sans-serif" font-size="34" letter-spacing="6">${escapeXml(exportLabel)}</text>
+        <text x="128" y="812" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="66" font-weight="700">${escapeXml(exportTitle)}</text>
+        <text x="128" y="878" fill="rgba(255,255,255,0.86)" font-family="Arial, Helvetica, sans-serif" font-size="28">${shortLines}</text>
+        <text x="128" y="986" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="33">${bodyLines}</text>
+        <rect x="128" y="1260" width="824" height="146" rx="24" fill="rgba(0,0,0,0.22)"/>
+        <text x="154" y="1302" fill="rgba(255,255,255,0.75)" font-family="Arial, Helvetica, sans-serif" font-size="22">${escapeXml(exportMeaningLabel)}</text>
+        <text x="154" y="1340" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="26">${meaningLines}</text>
+        <rect x="128" y="1428" width="824" height="126" rx="24" fill="rgba(255,255,255,0.12)"/>
+        <text x="154" y="1466" fill="rgba(255,255,255,0.78)" font-family="Arial, Helvetica, sans-serif" font-size="22">${escapeXml(exportLoveLabel)}</text>
+        <text x="154" y="1502" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="24">${loveLines}</text>
+        <text x="128" y="1590" fill="rgba(255,255,255,0.72)" font-family="Arial, Helvetica, sans-serif" font-size="24">Sun &amp; Moon Personality Quiz</text>
       </svg>
     `;
 
@@ -254,11 +254,11 @@ function ResultCard({ lang, resultKey, onRestart }: { lang: Lang; resultKey: Res
     <section className={`glow-card animate__animated animate__fadeInUp overflow-hidden bg-gradient-to-br p-0 ${result.palette} ${result.pattern}`}>
       <div className="flex flex-col">
         <div className={`flex items-center justify-center bg-black/20 p-4 sm:p-6 ${celestialKind === 'sun' ? 'order-1' : 'order-3'}`}>
-          <div className="result-export-shell flex w-full max-w-sm items-center justify-center rounded-[2rem] border border-white/20 bg-white/10 p-3 shadow-2xl">
+          <div className="result-export-shell flex w-full max-w-2xl items-center justify-center rounded-[1.75rem] border border-white/20 bg-white/10 p-3 shadow-2xl">
             <img
               src={artSrc}
               alt={lang === 'en' ? `${result.titleEn} artwork` : `${result.titleTh} artwork`}
-              className="h-[320px] w-full rounded-[1.5rem] object-cover sm:h-[360px]"
+              className="h-[230px] w-full rounded-[1.3rem] object-cover sm:h-[280px]"
             />
           </div>
         </div>
@@ -280,20 +280,20 @@ function ResultCard({ lang, resultKey, onRestart }: { lang: Lang; resultKey: Res
 
           <div className="mt-6 flex gap-3">
             <button
-              className="rounded-2xl bg-yellow-300 px-4 py-3 text-2xl font-semibold text-slate-900 hover:bg-yellow-200"
+              className="rounded-xl bg-yellow-300 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-yellow-200"
               onClick={handleExport}
               title={lang === 'en' ? 'Download result image' : 'ดาวน์โหลดรูปผลลัพธ์'}
               aria-label={lang === 'en' ? 'Download result image' : 'ดาวน์โหลดรูปผลลัพธ์'}
             >
-              ⬇️
+              {lang === 'en' ? 'Download' : 'ดาวน์โหลด'}
             </button>
             <button
-              className="rounded-2xl bg-white/25 px-4 py-3 text-2xl font-semibold hover:bg-white/35"
+              className="rounded-xl bg-white/25 px-4 py-2 text-sm font-medium hover:bg-white/35"
               onClick={onRestart}
               title={lang === 'en' ? 'Try again' : 'ลองอีกครั้ง'}
               aria-label={lang === 'en' ? 'Try again' : 'ลองอีกครั้ง'}
             >
-              🔄
+              {lang === 'en' ? 'Try again' : 'ลองอีกครั้ง'}
             </button>
           </div>
         </div>
