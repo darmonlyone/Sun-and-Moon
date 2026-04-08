@@ -28,6 +28,6 @@ body {
 }
 
 .result-export-shell {
-  width: min(100%, 23rem);
-  aspect-ratio: 9 / 16;
+  width: min(100%, 27rem);
+  aspect-ratio: 16 / 10;
 }

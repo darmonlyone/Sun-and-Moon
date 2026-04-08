@@ -74,8 +74,8 @@ export default function HomePage() {
   const intro = introCopy[lang];
 
   return (
-    <main className={`min-h-screen bg-gradient-to-br ${bg} px-3 py-4 transition-all duration-700 sm:px-4 sm:py-8`}>
-      <div className="mx-auto max-w-4xl">
+    <main className={`flex min-h-screen items-center bg-gradient-to-br ${bg} px-3 py-4 transition-all duration-700 sm:px-4 sm:py-8`}>
+      <div className="mx-auto w-full max-w-5xl">
         {stage === 'intro' && (
           <section className="glow-card animate__animated animate__fadeIn p-6 text-center sm:p-8">
             <h1 className="mb-4 text-3xl font-bold leading-tight sm:text-4xl">{intro.title}</h1>
@@ -188,10 +188,10 @@ function ResultCard({ lang, resultKey, onRestart }: { lang: Lang; resultKey: Res
     const bgEnd = celestialKind === 'sun' ? '#f59e0b' : '#8b5cf6';
     const accent = celestialKind === 'sun' ? '#ffe7a4' : '#e0e7ff';
     const exportArt = getCelestialArtDataUri(resultKey);
-    const bodyLines = splitLines(exportBody, 41, 128, 40, 5);
-    const shortLines = splitLines(exportShortDescription, 44, 128, 34, 2);
-    const meaningLines = splitLines(exportMeaning, 48, 154, 32, 2);
-    const loveLines = splitLines(exportLove, 48, 154, 30, 2);
+    const bodyLines = splitLines(exportBody, 40, 128, 44, 5);
+    const shortLines = splitLines(exportShortDescription, 42, 128, 38, 2);
+    const meaningLines = splitLines(exportMeaning, 46, 154, 36, 2);
+    const loveLines = splitLines(exportLove, 46, 154, 34, 2);
 
     const svg = `
       <svg xmlns="http://www.w3.org/2000/svg" width="${EXPORT_WIDTH}" height="${EXPORT_HEIGHT}" viewBox="0 0 ${EXPORT_WIDTH} ${EXPORT_HEIGHT}">
@@ -207,17 +207,17 @@ function ResultCard({ lang, resultKey, onRestart }: { lang: Lang; resultKey: Res
         <circle cx="910" cy="1420" r="170" fill="#ffffff" fill-opacity="0.08"/>
         <rect x="52" y="52" width="${EXPORT_WIDTH - 104}" height="${EXPORT_HEIGHT - 104}" rx="44" fill="#081122" fill-opacity="0.18" stroke="#FFFFFF" stroke-opacity="0.2"/>
         <image href="${exportArt}" x="136" y="144" width="808" height="500" preserveAspectRatio="xMidYMid slice" />
-        <text x="128" y="740" fill="${accent}" font-family="Arial, Helvetica, sans-serif" font-size="34" letter-spacing="6">${escapeXml(exportLabel)}</text>
-        <text x="128" y="812" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="66" font-weight="700">${escapeXml(exportTitle)}</text>
-        <text x="128" y="878" fill="rgba(255,255,255,0.86)" font-family="Arial, Helvetica, sans-serif" font-size="28">${shortLines}</text>
-        <text x="128" y="986" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="33">${bodyLines}</text>
+        <text x="128" y="740" fill="${accent}" font-family="Arial, Helvetica, sans-serif" font-size="40" letter-spacing="6">${escapeXml(exportLabel)}</text>
+        <text x="128" y="822" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="74" font-weight="700">${escapeXml(exportTitle)}</text>
+        <text x="128" y="898" fill="rgba(255,255,255,0.86)" font-family="Arial, Helvetica, sans-serif" font-size="34">${shortLines}</text>
+        <text x="128" y="1024" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="39">${bodyLines}</text>
         <rect x="128" y="1260" width="824" height="146" rx="24" fill="rgba(0,0,0,0.22)"/>
-        <text x="154" y="1302" fill="rgba(255,255,255,0.75)" font-family="Arial, Helvetica, sans-serif" font-size="22">${escapeXml(exportMeaningLabel)}</text>
-        <text x="154" y="1340" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="26">${meaningLines}</text>
+        <text x="154" y="1302" fill="rgba(255,255,255,0.75)" font-family="Arial, Helvetica, sans-serif" font-size="26">${escapeXml(exportMeaningLabel)}</text>
+        <text x="154" y="1344" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="30">${meaningLines}</text>
         <rect x="128" y="1428" width="824" height="126" rx="24" fill="rgba(255,255,255,0.12)"/>
-        <text x="154" y="1466" fill="rgba(255,255,255,0.78)" font-family="Arial, Helvetica, sans-serif" font-size="22">${escapeXml(exportLoveLabel)}</text>
-        <text x="154" y="1502" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="24">${loveLines}</text>
-        <text x="128" y="1590" fill="rgba(255,255,255,0.72)" font-family="Arial, Helvetica, sans-serif" font-size="24">Sun &amp; Moon Personality Quiz</text>
+        <text x="154" y="1466" fill="rgba(255,255,255,0.78)" font-family="Arial, Helvetica, sans-serif" font-size="26">${escapeXml(exportLoveLabel)}</text>
+        <text x="154" y="1506" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="28">${loveLines}</text>
+        <text x="128" y="1590" fill="rgba(255,255,255,0.72)" font-family="Arial, Helvetica, sans-serif" font-size="28">Sun &amp; Moon Personality Quiz</text>
       </svg>
     `;
 
@@ -252,18 +252,18 @@ function ResultCard({ lang, resultKey, onRestart }: { lang: Lang; resultKey: Res
 
   return (
     <section className={`glow-card animate__animated animate__fadeInUp overflow-hidden bg-gradient-to-br p-0 ${result.palette} ${result.pattern}`}>
-      <div className="flex flex-col">
-        <div className={`flex items-center justify-center bg-black/20 p-4 sm:p-6 ${celestialKind === 'sun' ? 'order-1' : 'order-3'}`}>
-          <div className="result-export-shell flex w-full max-w-2xl items-center justify-center rounded-[1.75rem] border border-white/20 bg-white/10 p-3 shadow-2xl">
+      <div className="flex flex-col lg:flex-row lg:items-stretch">
+        <div className="order-1 flex items-center justify-center bg-black/20 p-4 sm:p-6 lg:w-[44%]">
+          <div className="result-export-shell flex w-full items-center justify-center rounded-[1.75rem] border border-white/20 bg-white/10 p-3 shadow-2xl">
             <img
               src={artSrc}
               alt={lang === 'en' ? `${result.titleEn} artwork` : `${result.titleTh} artwork`}
-              className="h-[230px] w-full rounded-[1.3rem] object-cover sm:h-[280px]"
+              className="h-full w-full rounded-[1.3rem] object-cover"
             />
           </div>
         </div>
 
-        <div className="order-2 p-6 sm:p-8">
+        <div className="order-2 p-6 sm:p-8 lg:w-[56%]">
           <p className="mb-2 text-sm uppercase tracking-[0.18em] text-yellow-100">{lang === 'en' ? 'Your Cosmic Type' : 'พลังจักรวาลของคุณ'}</p>
           <h2 className="mb-3 text-3xl font-extrabold sm:text-4xl">{lang === 'en' ? result.titleEn : result.titleTh}</h2>
           <p className="mb-3 text-xs leading-relaxed text-white/80">{lang === 'en' ? shortDescription.en : shortDescription.th}</p>

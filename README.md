@@ -1,6 +1,6 @@
 # Sun & Moon Personality Quiz
 
-[Live site](https://darmonlyone.github.io/Sun-and-Moon/)
+[Live site](https://darmonly.github.io/Sun-and-Moon/)
 
 A fun, single-page **bilingual (English / Thai)** personality quiz built with **Next.js + React + Tailwind CSS + animate.css**.
 
