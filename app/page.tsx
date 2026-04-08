@@ -178,17 +178,52 @@ function ResultCard({ lang, resultKey, onRestart }: { lang: Lang; resultKey: Res
       return;
     }
 
-    const hiddenNodes = Array.from(resultCardRef.current.querySelectorAll('[data-export-hide="true"]')) as HTMLElement[];
+    const card = resultCardRef.current;
+    const hiddenNodes = Array.from(card.querySelectorAll('[data-export-hide="true"]')) as HTMLElement[];
+
     hiddenNodes.forEach((node) => {
       node.dataset.originalDisplay = node.style.display;
       node.style.display = 'none';
     });
 
+    const images = Array.from(card.querySelectorAll('img'));
+    await Promise.all(
+      images.map(async (image) => {
+        if (image.complete) {
+          return;
+        }
+
+        try {
+          await image.decode();
+        } catch {
+          // Export should continue even if an image cannot be decoded.
+        }
+      }),
+    );
+
+    await new Promise((resolve) => requestAnimationFrame(() => resolve(undefined)));
+
     try {
-      const canvas = await html2canvas(resultCardRef.current, {
+      const canvas = await html2canvas(card, {
         scale: 2,
         useCORS: true,
-        backgroundColor: null,
+        backgroundColor: '#0f1026',
+        onclone: (clonedDocument) => {
+          const clonedCard = clonedDocument.querySelector('[data-export-card="true"]') as HTMLElement | null;
+          if (!clonedCard) {
+            return;
+          }
+
+          clonedCard.style.opacity = '1';
+          clonedCard.style.animation = 'none';
+          clonedCard.style.backdropFilter = 'none';
+          clonedCard.style.setProperty('-webkit-backdrop-filter', 'none');
+
+          clonedCard.querySelectorAll<HTMLElement>('*').forEach((node) => {
+            node.style.animation = 'none';
+            node.style.opacity = node.style.opacity || '1';
+          });
+        },
       });
 
       const link = document.createElement('a');
@@ -208,6 +243,7 @@ function ResultCard({ lang, resultKey, onRestart }: { lang: Lang; resultKey: Res
   return (
     <section
       ref={resultCardRef}
+      data-export-card="true"
       className={`glow-card animate__animated animate__fadeInUp overflow-hidden bg-gradient-to-br p-0 ${result.palette} ${result.pattern}`}
     >
       <div className="flex flex-col lg:flex-row lg:items-stretch">
