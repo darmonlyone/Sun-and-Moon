@@ -1,6 +1,5 @@
 'use client';
 
-import html2canvas from 'html2canvas';
 import { useMemo, useRef, useState } from 'react';
 import { getCelestialArtDataUri } from './art';
 import { introCopy, Lang, midwayQuote, preResultQuote, questions, resultOrder, results, ResultKey, resultShortDescriptions } from './data/quizData';
@@ -173,34 +172,6 @@ function ResultCard({ lang, resultKey, onRestart }: { lang: Lang; resultKey: Res
   const artSrc = getCelestialArtDataUri(resultKey);
   const exportRef = useRef<HTMLElement>(null);
 
-  const handleExport = async () => {
-    const exportNode = exportRef.current;
-    if (!exportNode) {
-      return;
-    }
-
-    try {
-      const canvas = await html2canvas(exportNode, {
-        backgroundColor: null,
-        scale: Math.min(window.devicePixelRatio || 2, 3),
-        useCORS: true,
-        logging: false,
-        windowWidth: exportNode.scrollWidth,
-        windowHeight: exportNode.scrollHeight,
-        ignoreElements: (element) => element.hasAttribute('data-export-hide'),
-      });
-
-      const link = document.createElement('a');
-      link.download = `${result.titleEn.toLowerCase().replace(/\s+/g, '-')}-result.png`;
-      link.href = canvas.toDataURL('image/png');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      console.error('Failed to export result image:', error);
-    }
-  };
-
   return (
     <section
       ref={exportRef}
@@ -233,14 +204,6 @@ function ResultCard({ lang, resultKey, onRestart }: { lang: Lang; resultKey: Res
           </div>
 
           <div className="mt-6 flex gap-3" data-export-hide="true">
-            <button
-              className="rounded-xl bg-yellow-300 px-4 py-2 text-sm font-medium text-slate-900 hover:bg-yellow-200"
-              onClick={handleExport}
-              title={lang === 'en' ? 'Download result image' : 'ดาวน์โหลดรูปผลลัพธ์'}
-              aria-label={lang === 'en' ? 'Download result image' : 'ดาวน์โหลดรูปผลลัพธ์'}
-            >
-              {lang === 'en' ? 'Download' : 'ดาวน์โหลด'}
-            </button>
             <button
               className="rounded-xl bg-white/25 px-4 py-2 text-sm font-medium hover:bg-white/35"
               onClick={onRestart}
