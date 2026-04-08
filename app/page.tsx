@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { getCelestialArtDataUri, getCelestialArtSvg } from './art';
+import { getCelestialArtDataUri, getCelestialKind } from './art';
 import { introCopy, Lang, midwayQuote, preResultQuote, questions, resultOrder, results, ResultKey, resultShortDescriptions } from './data/quizData';
 
 type Stage = 'intro' | 'quiz' | 'midway' | 'revealing' | 'result';
@@ -16,11 +16,10 @@ const COLOR_STEPS = [
 
 const EXPORT_WIDTH = 1080;
 const EXPORT_HEIGHT = 1920;
-const SUN_RESULTS: ResultKey[] = ['sunrise', 'solarNoon', 'sunset', 'sunspot', 'solarEclipse'];
 const halfwayIndex = Math.floor(questions.length / 2);
 
 export default function HomePage() {
-  const [lang, setLang] = useState<Lang>('en');
+  const [lang, setLang] = useState<Lang>('th');
   const [stage, setStage] = useState<Stage>('intro');
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<number[]>(Array(questions.length).fill(-1));
@@ -172,8 +171,8 @@ export default function HomePage() {
 function ResultCard({ lang, resultKey, onRestart }: { lang: Lang; resultKey: ResultKey; onRestart: () => void }) {
   const result = results[resultKey];
   const shortDescription = resultShortDescriptions[resultKey];
-  const celestialKind = SUN_RESULTS.includes(resultKey) ? 'sun' : 'moon';
-  const artSrc = getCelestialArtDataUri(celestialKind);
+  const celestialKind = getCelestialKind(resultKey);
+  const artSrc = getCelestialArtDataUri(resultKey);
 
   const handleExport = async () => {
     const exportTitle = lang === 'en' ? result.titleEn : result.titleTh;
@@ -188,7 +187,11 @@ function ResultCard({ lang, resultKey, onRestart }: { lang: Lang; resultKey: Res
     const bgMid = celestialKind === 'sun' ? '#9a4f22' : '#4343a9';
     const bgEnd = celestialKind === 'sun' ? '#f59e0b' : '#8b5cf6';
     const accent = celestialKind === 'sun' ? '#ffe7a4' : '#e0e7ff';
-    const artMarkup = getCelestialArtSvg(celestialKind);
+    const exportArt = getCelestialArtDataUri(resultKey);
+    const bodyLines = splitLines(exportBody, 39, 120, 50, 5);
+    const shortLines = splitLines(exportShortDescription, 44, 120, 44, 3);
+    const meaningLines = splitLines(exportMeaning, 38, 152, 40, 2);
+    const loveLines = splitLines(exportLove, 40, 152, 38, 2);
 
     const svg = `
       <svg xmlns="http://www.w3.org/2000/svg" width="${EXPORT_WIDTH}" height="${EXPORT_HEIGHT}" viewBox="0 0 ${EXPORT_WIDTH} ${EXPORT_HEIGHT}">
@@ -203,31 +206,17 @@ function ResultCard({ lang, resultKey, onRestart }: { lang: Lang; resultKey: Res
         <circle cx="180" cy="180" r="110" fill="#ffffff" fill-opacity="0.08"/>
         <circle cx="910" cy="1420" r="170" fill="#ffffff" fill-opacity="0.08"/>
         <rect x="72" y="72" width="${EXPORT_WIDTH - 144}" height="${EXPORT_HEIGHT - 144}" rx="56" fill="#081122" fill-opacity="0.18" stroke="#FFFFFF" stroke-opacity="0.2"/>
-        <foreignObject x="170" y="160" width="740" height="740">${artMarkup}</foreignObject>
+        <image href="${exportArt}" x="170" y="160" width="740" height="740" preserveAspectRatio="xMidYMid slice" />
         <text x="120" y="950" fill="${accent}" font-family="Arial, Helvetica, sans-serif" font-size="40" letter-spacing="8">${escapeXml(exportLabel)}</text>
         <text x="120" y="1035" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="84" font-weight="700">${escapeXml(exportTitle)}</text>
-        <foreignObject x="120" y="1088" width="840" height="140">
-          <div xmlns="http://www.w3.org/1999/xhtml" style="font-family: Arial, Helvetica, sans-serif; font-size: 34px; line-height: 1.45; color: rgba(255,255,255,0.86);">
-            ${escapeHtml(exportShortDescription)}
-          </div>
-        </foreignObject>
-        <foreignObject x="120" y="1258" width="840" height="300">
-          <div xmlns="http://www.w3.org/1999/xhtml" style="font-family: Arial, Helvetica, sans-serif; font-size: 38px; line-height: 1.5; color: white;">
-            ${escapeHtml(exportBody)}
-          </div>
-        </foreignObject>
-        <foreignObject x="120" y="1545" width="840" height="148">
-          <div xmlns="http://www.w3.org/1999/xhtml" style="padding: 28px 32px; border-radius: 28px; background: rgba(0,0,0,0.22); font-family: Arial, Helvetica, sans-serif; color: white;">
-            <div style="font-size: 24px; opacity: 0.75; margin-bottom: 10px;">${escapeHtml(exportMeaningLabel)}</div>
-            <div style="font-size: 30px; line-height: 1.4;">${escapeHtml(exportMeaning)}</div>
-          </div>
-        </foreignObject>
-        <foreignObject x="120" y="1715" width="840" height="128">
-          <div xmlns="http://www.w3.org/1999/xhtml" style="padding: 24px 32px; border-radius: 28px; background: rgba(255,255,255,0.12); font-family: Arial, Helvetica, sans-serif; color: white;">
-            <div style="font-size: 24px; opacity: 0.78; margin-bottom: 8px;">${escapeHtml(exportLoveLabel)}</div>
-            <div style="font-size: 28px; line-height: 1.35;">${escapeHtml(exportLove)}</div>
-          </div>
-        </foreignObject>
+        <text x="120" y="1135" fill="rgba(255,255,255,0.86)" font-family="Arial, Helvetica, sans-serif" font-size="34">${shortLines}</text>
+        <text x="120" y="1290" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="38">${bodyLines}</text>
+        <rect x="120" y="1530" width="840" height="170" rx="28" fill="rgba(0,0,0,0.22)"/>
+        <text x="152" y="1582" fill="rgba(255,255,255,0.75)" font-family="Arial, Helvetica, sans-serif" font-size="24">${escapeXml(exportMeaningLabel)}</text>
+        <text x="152" y="1630" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="30">${meaningLines}</text>
+        <rect x="120" y="1720" width="840" height="140" rx="28" fill="rgba(255,255,255,0.12)"/>
+        <text x="152" y="1766" fill="rgba(255,255,255,0.78)" font-family="Arial, Helvetica, sans-serif" font-size="24">${escapeXml(exportLoveLabel)}</text>
+        <text x="152" y="1812" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="28">${loveLines}</text>
         <text x="120" y="1868" fill="rgba(255,255,255,0.72)" font-family="Arial, Helvetica, sans-serif" font-size="28">Sun &amp; Moon Personality Quiz</text>
       </svg>
     `;
@@ -251,15 +240,30 @@ function ResultCard({ lang, resultKey, onRestart }: { lang: Lang; resultKey: Res
       const link = document.createElement('a');
       link.download = `${result.titleEn.toLowerCase().replace(/\s+/g, '-')}-mobile-card.png`;
       link.href = canvas.toDataURL('image/png');
+      document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
+    };
+    image.onerror = () => {
+      URL.revokeObjectURL(svgUrl);
     };
     image.src = svgUrl;
   };
 
   return (
     <section className={`glow-card animate__animated animate__fadeInUp overflow-hidden bg-gradient-to-br p-0 ${result.palette} ${result.pattern}`}>
-      <div className="grid gap-0 lg:grid-cols-[1.15fr,0.85fr]">
-        <div className="order-2 p-6 sm:p-8 lg:order-1">
+      <div className="flex flex-col">
+        <div className={`flex items-center justify-center bg-black/20 p-4 sm:p-6 ${celestialKind === 'sun' ? 'order-1' : 'order-3'}`}>
+          <div className="result-export-shell flex w-full max-w-sm items-center justify-center rounded-[2rem] border border-white/20 bg-white/10 p-3 shadow-2xl">
+            <img
+              src={artSrc}
+              alt={lang === 'en' ? `${result.titleEn} artwork` : `${result.titleTh} artwork`}
+              className="h-[320px] w-full rounded-[1.5rem] object-cover sm:h-[360px]"
+            />
+          </div>
+        </div>
+
+        <div className="order-2 p-6 sm:p-8">
           <p className="mb-2 text-sm uppercase tracking-[0.18em] text-yellow-100">{lang === 'en' ? 'Your Cosmic Type' : 'พลังจักรวาลของคุณ'}</p>
           <h2 className="mb-3 text-3xl font-extrabold sm:text-4xl">{lang === 'en' ? result.titleEn : result.titleTh}</h2>
           <p className="mb-3 text-xs leading-relaxed text-white/80">{lang === 'en' ? shortDescription.en : shortDescription.th}</p>
@@ -274,29 +278,23 @@ function ResultCard({ lang, resultKey, onRestart }: { lang: Lang; resultKey: Res
             <p>{lang === 'en' ? result.loveEn : result.loveTh}</p>
           </div>
 
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-6 flex gap-3">
             <button
-              className="rounded-2xl bg-yellow-300 px-6 py-3 font-semibold text-slate-900 hover:bg-yellow-200"
+              className="rounded-2xl bg-yellow-300 px-4 py-3 text-2xl font-semibold text-slate-900 hover:bg-yellow-200"
               onClick={handleExport}
+              title={lang === 'en' ? 'Download result image' : 'ดาวน์โหลดรูปผลลัพธ์'}
+              aria-label={lang === 'en' ? 'Download result image' : 'ดาวน์โหลดรูปผลลัพธ์'}
             >
-              {lang === 'en' ? 'Download Mobile Image' : 'ดาวน์โหลดภาพสำหรับมือถือ'}
+              ⬇️
             </button>
             <button
-              className="rounded-2xl bg-white/25 px-6 py-3 font-semibold hover:bg-white/35"
+              className="rounded-2xl bg-white/25 px-4 py-3 text-2xl font-semibold hover:bg-white/35"
               onClick={onRestart}
+              title={lang === 'en' ? 'Try again' : 'ลองอีกครั้ง'}
+              aria-label={lang === 'en' ? 'Try again' : 'ลองอีกครั้ง'}
             >
-              {lang === 'en' ? 'Try Again' : 'ลองอีกครั้ง'}
+              🔄
             </button>
-          </div>
-        </div>
-
-        <div className="order-1 flex items-center justify-center bg-black/20 p-5 sm:p-8 lg:order-2">
-          <div className="result-export-shell flex w-full items-center justify-center rounded-[2rem] border border-white/20 bg-white/10 p-4 shadow-2xl">
-            <img
-              src={artSrc}
-              alt={lang === 'en' ? `${result.titleEn} artwork` : `${result.titleTh} artwork`}
-              className="h-full w-full rounded-[1.5rem] object-cover"
-            />
           </div>
         </div>
       </div>
@@ -313,6 +311,25 @@ function escapeXml(value: string) {
     .replace(/'/g, '&apos;');
 }
 
-function escapeHtml(value: string) {
-  return escapeXml(value).replace(/\n/g, '<br/>');
+function splitLines(value: string, maxChars: number, x: number, lineHeight: number, maxLines: number) {
+  const words = value.split(/\s+/).filter(Boolean);
+  const lines: string[] = [];
+  let currentLine = '';
+
+  words.forEach((word) => {
+    const candidate = currentLine ? `${currentLine} ${word}` : word;
+    if (candidate.length > maxChars) {
+      if (currentLine) lines.push(currentLine);
+      currentLine = word;
+    } else {
+      currentLine = candidate;
+    }
+  });
+
+  if (currentLine) lines.push(currentLine);
+
+  return lines
+    .slice(0, maxLines)
+    .map((line, index) => `<tspan x="${x}" dy="${index === 0 ? 0 : lineHeight}">${escapeXml(line)}</tspan>`)
+    .join('');
 }

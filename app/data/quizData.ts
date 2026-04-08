@@ -534,7 +534,7 @@ export const introCopy = {
 
 export const midwayQuote = {
   en: 'The sun and the moon do not try to be alike. One lights the day, the other softens the night - each finding their place, each enough as they are.',
-  th: 'เขาเลือกคุณ หรือคุณกำลังเลือกเขา?',
+  th: 'ดวงอาทิตย์กับดวงจันทร์ไม่จำเป็นต้องเหมือนกัน ดวงหนึ่งส่องสว่างให้กลางวัน อีกดวงทำให้กลางคืนอ่อนโยน ต่างมีที่ทางของตัวเอง และต่างก็เพียงพอในแบบของตัวเอง',
 };
 
 export const preResultQuote = {
