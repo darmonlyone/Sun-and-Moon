@@ -1,9 +1,6 @@
 # Sun & Moon Personality Quiz
 
-## Current usable domain
-
-- `https://darmonlyone.github.io/Sun-and-Moon/`
-- If you rename the repo to `MoonAndSun`: `https://darmonlyone.github.io/MoonAndSun/`
+[Live site](https://darmonlyone.github.io/Sun-and-Moon/)
 
 A fun, single-page **bilingual (English / Thai)** personality quiz built with **Next.js + React + Tailwind CSS + animate.css**.
 
