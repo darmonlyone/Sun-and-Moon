@@ -496,11 +496,6 @@ const questionBank: Question[] = [
 ];
 
 export const questions: Question[] = [
-  questionBank[0],
-  questionBank[1],
-  questionBank[6],
-  questionBank[13],
-  questionBank[14],
   questionBank[7],
   questionBank[11],
   questionBank[5],
@@ -511,6 +506,11 @@ export const questions: Question[] = [
   questionBank[3],
   questionBank[9],
   questionBank[10],
+  questionBank[0],
+  questionBank[1],
+  questionBank[6],
+  questionBank[13],
+  questionBank[14],
 ];
 
 export const introCopy = {

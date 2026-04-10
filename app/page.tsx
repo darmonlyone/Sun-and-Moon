@@ -100,11 +100,8 @@ export default function HomePage() {
         {stage === 'quiz' && (
           <section className="glow-card animate__animated animate__fadeIn p-5 sm:p-8">
             <div className="mb-5">
-              <div className="mb-2 flex justify-between text-sm text-white/80">
+              <div className="mb-2 flex text-sm text-white/80">
                 <span>{lang === 'en' ? 'Progress' : 'ความคืบหน้า'}</span>
-                <span>
-                  {current + 1}/{questions.length}
-                </span>
               </div>
               <div className="h-2 overflow-hidden rounded-full bg-white/20">
                 <div className="h-full rounded-full bg-yellow-300 transition-all" style={{ width: `${progress}%` }} />
